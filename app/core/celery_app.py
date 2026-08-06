@@ -15,3 +15,5 @@ celery.conf.update(
     result_expires=3600,
     broker_connection_retry_on_startup=True,
 )
+
+celery.conf.imports=("app.tasks.example_task")
