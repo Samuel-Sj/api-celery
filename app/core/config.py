@@ -20,5 +20,8 @@ class Settings(BaseSettings):
     def CELERY_RESULT_BACKEND(self) -> str:
         return self.REDIS_URL
 
+    @property
+    def MONOGO_URI(self) -> str:
+        return self.MONGO_URI
 
 settings = Settings()

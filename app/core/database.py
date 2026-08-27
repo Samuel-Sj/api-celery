@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime
-
 from pydantic import BaseModel, Field
-from pymongo import MongoClient
-
+from pymongo import AsyncMongoClient
+from pymongo.errors import ConnectionFailure, PyMongoError
 from app.core.config import settings
+from loguru import logger
 
 
 class Event(BaseModel):
@@ -15,8 +15,12 @@ class Event(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now)
 
 
-client = MongoClient(settings.MONGO_URI)
-
-db = client.get_database("event")
-
-collection = db.get_collection("celery_event")
+async def get_mongo_connection():
+    async with AsyncMongoClient(settings.MONGO_URI) as client:
+        try:
+            db = client.get_database("event")
+            yield db
+        except ConnectionFailure as err:
+            logger.error(f"Erro de timeout ao tentar conectar ao MongoDB: {err}")
+        except PyMongoError as e:
+            logger.error(f"Erro interno do PyMongo: {e}")
