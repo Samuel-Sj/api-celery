@@ -13,6 +13,7 @@ class Event(BaseModel):
     status: str
     result: int | None = None
     created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime | None = Field(default_factory=datetime.now)
 
 
 async def get_mongo_connection():

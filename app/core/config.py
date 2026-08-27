@@ -21,7 +21,7 @@ class Settings(BaseSettings):
         return self.REDIS_URL
 
     @property
-    def MONOGO_URI(self) -> str:
+    def MONGODB_URI(self) -> str:
         return self.MONGO_URI
 
 settings = Settings()
