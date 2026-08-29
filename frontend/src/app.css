@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg: #172446;
+    --surface: #0c0d0f;
+    --surface-2: #223d70;
+    --border: #272e3d;
+    --text: #ffffff;
+    --text-muted: #8890A0;
+    --accent: #ffffff;
+    --queued: #8890A0;
+    --processing: #F2B84B;
+    --success: #4ADE9A;
+    --failure: #FF6B75;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+}
+
+/* Layout raiz (App.tsx) */
+.app {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header */
+.app-header { }
+
+.app-header_inner { }
+
+.app-header-title {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+}
+
+.tag {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.12);
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.app-header__paragraph {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Endpoint */
+.endpointPanel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.endpointSpan {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.inputEndpoint {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+}
+.inputEndpoint:focus { border-color: var(--accent); }
+
+.btn-send-request {
+    align-self: flex-start;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 16px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.btn-send-request:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Histórico (se/quando forem usar) */
+.task-history {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.task-hist {
+    font-family: var(--font-display);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* Criar task */
+.task-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-create-panel {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.task-panel-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.task-panel-field label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.task-number {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    outline: none;
+}
+.task-number:focus { border-color: var(--accent); }
+.task-number::-webkit-outer-spin-button,
+.task-number::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.button-submit-task {
+    align-self: flex-start;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #000000;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+.button-submit-task:hover { opacity: 0.9; }
+.button-submit-task:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Lista de tasks enviadas (usadas no TaskCreate que fizemos) */
+.task-error {
+    color: var(--failure);
+    background: rgba(255, 107, 117, 0.08);
+    border: 1px solid rgba(255, 107, 117, 0.25);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 12.5px;
+    margin: 0;
+}
+
+.task-list {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.task-item-id {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 160px;
+}
+
+.task-item-status {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--processing);
+}
+
+.task-item-result {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--success);
+    margin-left: auto;
+}
+
+.task-item button {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    color: var(--text-muted);
+    font-size: 11px;
+    cursor: pointer;
+}
+.task-item button:hover { border-color: var(--accent); color: var(--accent); }

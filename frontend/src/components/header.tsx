@@ -1,7 +1,7 @@
 export default function Header() {
     return(
         <header className="app-header">
-            <div className="app-header_iiner">
+            <div className="app-header_inner">
                 <div>
                     <h1 className="app-header-title">
                         Fila Celery ! 
