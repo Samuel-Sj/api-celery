@@ -52,6 +52,6 @@ async def get_status(task_id: str, db: AsyncDatabase = Depends(get_mongo_connect
         {
             "task_id": task_id,
         },
-        {"$set": {"status": result.status, "result": result.result, "updated_at": datetime.now}},
+        {"$set": {"status": result.status, "result": result.result, "updated_at": datetime.now()}},
     )
     return TaskStatus(task_id=task_id, status=result.status, result=result.result)

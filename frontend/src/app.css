@@ -114,6 +114,11 @@ body {
 }
 .btn-send-request:hover { border-color: var(--accent); color: var(--accent); }
 
+.endpointResult{
+    color:var(--text);
+    background: var(--surface-2);
+}
+
 /* Histórico (se/quando forem usar) */
 .task-history {
     display: flex;
