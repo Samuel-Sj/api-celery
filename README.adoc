@@ -1,0 +1,78 @@
+= Projeto Pessoal:  Fila com Celery e FastAPI
+
+== Introdução
+
+Esse é um projeto pessoal com o intuito de praticar conceitos backend focando principalmente com filas utilizando tecnologias como Celery, FastAPI, Redis e MongoDB. Consistiu-se em criar uma task simples de somar dois números que evoluiu de entendimento básico para a aplicação de diversas outras tecnologias porque entendi que era possível a ampliação e separação de tarefas que tentasse ao máximo reproduzir o ambiente real de utilização dessas tecnologias.
+
+=== Componentes Chaves
+
+==== Backend
+
+FastAPI
+Celery
+MongoDB
+Redis
+
+==== Frontend
+
+React e TypeScript
+Axios
+
+== Instalação e execução
+
+=== Pré-requisitos
+
+Para executar o projeto, é necessário ter instalado:
+
+Docker
+Docker Compose
+
+=== Subindo o projeto
+
+Com o Docker em execução, na raiz do projeto execute:
+
+[source,bash]
+docker compose up --build
+
+O comando irá criar e iniciar todos os containers necessários para a aplicação:
+
+Backend (FastAPI)
+Worker (Celery)
+Redis
+MongoDB
+Frontend (React)
+
+Após a inicialização, os serviços estarão disponíveis em:
+
+Frontend: http://localhost:3000
+Backend: http://localhost:8000
+Documentação da API: http://localhost:8000/docs
+
+Para executar os containers em segundo plano:
+
+[source,bash]
+docker compose up --build -d
+
+Para visualizar os logs:
+
+[source,bash]
+docker compose logs -f
+
+Para encerrar a aplicação:
+
+[source,bash]
+docker compose down
+
+=== Observação
+
+Os dados do MongoDB são persistidos através de um volume Docker. Dessa forma, os dados não são perdidos ao executar docker compose down.
+
+Para remover também os dados persistidos e recriar o ambiente do zero:
+
+[source,bash]
+docker compose down -v
+
+=== Melhorias Futuras
+
+Como melhorias futuras pretendo criar testes com *Jest* para testar todas as chamadas da API no frontend e testar individualmente todos os componentes. 
+Também pretendo adicionar autenticação e autorização como parte dos estudos.

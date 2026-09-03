@@ -9,6 +9,17 @@ const apiClient = axios.create({
     },
 });
 
+async function getAllTasks (): Promise<Task[] | []> {
+    try {
+        const response = await apiClient.get<Task[]>("/task");
+        return response.data;
+    } catch (error) {
+        console.error(`Erro ao buscar todas as task: ${error}`)
+        return [];
+        
+    }
+}
+
 async function getTaskID(task_id: string): Promise<TaskStatus | undefined> {
     try {
         const response = await apiClient.get<TaskStatus>(`/status/${task_id}`);
@@ -29,4 +40,4 @@ async function createTask(x: number, y: number): Promise<Task | undefined> {
     }
 }
 
-export { apiClient, getTaskID, createTask };
+export { apiClient, getTaskID, createTask, getAllTasks };

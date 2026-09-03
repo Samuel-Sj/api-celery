@@ -36,6 +36,14 @@ async def add_numbers(
     return new_task_queue
 
 
+@router.get("/task",response_model=list[TaskStatus])
+async def get_all_tasks(db: AsyncDatabase = Depends(get_mongo_connection)):
+    collection = db.get_collection("celery_event")
+    tasks = []
+    async for doc in collection.find().sort("created_at", -1):
+        tasks.append(TaskStatus(task_id=doc["task_id"],status=doc["status"],result=doc["result"]))
+    return tasks
+
 @router.get("/status")
 async def get_status_missing_id():
     raise HTTPException(status_code=400, detail="task_id é obrigatório")
