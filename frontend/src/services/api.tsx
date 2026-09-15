@@ -30,7 +30,7 @@ async function getTaskID(task_id: string): Promise<TaskStatus | undefined> {
     }
 }
 
-async function createTask(x: number, y: number): Promise<Task | undefined> {
+async function createAddTask(x: number, y: number): Promise<Task | undefined> {
     try {
         const response = await apiClient.post<Task>('/add', null, { params: { x, y } });
         return response.data;
@@ -40,4 +40,38 @@ async function createTask(x: number, y: number): Promise<Task | undefined> {
     }
 }
 
-export { apiClient, getTaskID, createTask, getAllTasks };
+async function createSubtractTask(x: number, y: number): Promise <Task | undefined>{
+    try {
+        const response = await apiClient.post<Task>('/subtract',null, {params: {x,y}});
+        return response.data;
+    } catch (error) {
+        console.error (`Erro ao criar task (${x} - ${y}):`,error);
+        return undefined;
+        
+    }
+}
+
+async function createMultiplyTask(x: number, y: number): Promise <Task | undefined>{
+    try {
+        const response = await apiClient.post<Task>('/multiply',null, {params:{x,y}});
+        return response.data;
+        
+    } catch (error) {
+        console.error (`Erro ao criar task (${x} - ${y}):`,error);
+        return undefined;
+        
+    }
+}
+
+async function createDivisionTask (x: number, y: number): Promise<Task | undefined>{
+    try {
+        const response = await apiClient.post<Task>('/division',null, {params: {x,y}});
+        return response.data;
+    } catch (error) {
+        console.error (`Erro ao criar task (${x} - ${y}):`,error);
+        return undefined;
+        
+    }
+}
+
+export { apiClient, getTaskID, createAddTask,createSubtractTask, createDivisionTask,createMultiplyTask, getAllTasks };

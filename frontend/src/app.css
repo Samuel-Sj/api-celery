@@ -177,6 +177,38 @@ body {
 .task-number:focus { border-color: var(--accent); }
 .task-number::-webkit-outer-spin-button,
 .task-number::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.task-options-panel {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.button-option-choose {
+    flex: 1;
+    min-width: 100px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.button-option-choose:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.button-option-choose.selected {
+    background: rgba(124, 156, 255, 0.14);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+}
 
 .button-submit-task {
     align-self: flex-start;

@@ -4,7 +4,10 @@ from pymongo.asynchronous.database import AsyncDatabase
 from pymongo.errors import CollectionInvalid
 from app.core.celery_app import celery
 from app.core.database import Event, get_mongo_connection
-from app.tasks.example_task import add
+from app.tasks.add_task import add
+from app.tasks.subtract_task import subtract
+from app.tasks.multiply_task import multiply
+from app.tasks.division_task import division
 from app.models.TaskQueue import TaskQueue
 from app.models.TaskStatus import TaskStatus
 
@@ -36,13 +39,69 @@ async def add_numbers(
     return new_task_queue
 
 
-@router.get("/task",response_model=list[TaskStatus])
+@router.post("/subtract", status_code=200, response_model=TaskQueue)
+async def subtract_numbers(
+    x: int,
+    y: int,
+    db: AsyncDatabase = Depends(get_mongo_connection),
+):
+    task = subtract.delay(x, y)
+    event = Event(task_id=task.id, status=str(task.result))
+    new_task_queue = TaskQueue(task_id=task.id)
+    try:
+        collection = db.get_collection("celery_event")
+        await collection.insert_one(event.model_dump())
+    except CollectionInvalid:
+        raise HTTPException(status_code=500, detail="Erro ao criar a collection")
+    return new_task_queue
+
+
+@router.post("/mulitply", status_code=200, response_model=TaskQueue)
+async def multiply_numbers(
+    x: int,
+    y: int,
+    db: AsyncDatabase = Depends(get_mongo_connection),
+):
+    task = multiply.delay(x, y)
+    event = Event(task_id=task.id, status=str(task.result))
+    new_task_queue = TaskQueue(task_id=task.id)
+    try:
+        collection = db.get_collection("celery_event")
+        await collection.insert_one(event.model_dump())
+    except CollectionInvalid:
+        raise HTTPException(status_code=500, detail="Erro ao criar a collection")
+    return new_task_queue
+
+
+@router.post("/division", status_code=200, response_model=TaskQueue)
+async def division_numbers(
+    x: int,
+    y: int,
+    db: AsyncDatabase = Depends(get_mongo_connection),
+):
+    task = division.delay(x, y)
+    event = Event(task_id=task.id, status=str(task.result))
+    new_task_queue = TaskQueue(task_id=task.id)
+    try:
+        collection = db.get_collection("celery_event")
+        await collection.insert_one(event.model_dump())
+    except CollectionInvalid:
+        raise HTTPException(status_code=500, detail="Erro ao criar a collection")
+    return new_task_queue
+
+
+@router.get("/task", response_model=list[TaskStatus])
 async def get_all_tasks(db: AsyncDatabase = Depends(get_mongo_connection)):
     collection = db.get_collection("celery_event")
     tasks = []
     async for doc in collection.find().sort("created_at", -1):
-        tasks.append(TaskStatus(task_id=doc["task_id"],status=doc["status"],result=doc["result"]))
+        tasks.append(
+            TaskStatus(
+                task_id=doc["task_id"], status=doc["status"], result=doc["result"]
+            )
+        )
     return tasks
+
 
 @router.get("/status")
 async def get_status_missing_id():
@@ -60,6 +119,12 @@ async def get_status(task_id: str, db: AsyncDatabase = Depends(get_mongo_connect
         {
             "task_id": task_id,
         },
-        {"$set": {"status": result.status, "result": result.result, "updated_at": datetime.now()}},
+        {
+            "$set": {
+                "status": result.status,
+                "result": result.result,
+                "updated_at": datetime.now(),
+            }
+        },
     )
     return TaskStatus(task_id=task_id, status=result.status, result=result.result)
