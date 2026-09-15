@@ -56,7 +56,7 @@ async def subtract_numbers(
     return new_task_queue
 
 
-@router.post("/mulitply", status_code=200, response_model=TaskQueue)
+@router.post("/multiply", status_code=200, response_model=TaskQueue)
 async def multiply_numbers(
     x: int,
     y: int,
