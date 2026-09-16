@@ -23,7 +23,7 @@ def home():
 async def add_numbers(
     x: int,
     y: int,
-    db: AsyncDatabase = Depends(get_mongo_connection),
+    db: AsyncDatabase = Depends(get_mongo_connection("event")),
 ):
     task = add.delay(x, y)
 
@@ -43,7 +43,7 @@ async def add_numbers(
 async def subtract_numbers(
     x: int,
     y: int,
-    db: AsyncDatabase = Depends(get_mongo_connection),
+    db: AsyncDatabase = Depends(get_mongo_connection("event")),
 ):
     task = subtract.delay(x, y)
     event = Event(task_id=task.id, status=str(task.result))
@@ -60,7 +60,7 @@ async def subtract_numbers(
 async def multiply_numbers(
     x: int,
     y: int,
-    db: AsyncDatabase = Depends(get_mongo_connection),
+    db: AsyncDatabase = Depends(get_mongo_connection("event")),
 ):
     task = multiply.delay(x, y)
     event = Event(task_id=task.id, status=str(task.result))
@@ -77,7 +77,7 @@ async def multiply_numbers(
 async def division_numbers(
     x: int,
     y: int,
-    db: AsyncDatabase = Depends(get_mongo_connection),
+    db: AsyncDatabase = Depends(get_mongo_connection("event")),
 ):
     task = division.delay(x, y)
     event = Event(task_id=task.id, status=str(task.result))
@@ -91,7 +91,7 @@ async def division_numbers(
 
 
 @router.get("/task", response_model=list[TaskStatus])
-async def get_all_tasks(db: AsyncDatabase = Depends(get_mongo_connection)):
+async def get_all_tasks(db: AsyncDatabase = Depends(get_mongo_connection("event"))):
     collection = db.get_collection("celery_event")
     tasks = []
     async for doc in collection.find().sort("created_at", -1):
@@ -109,7 +109,7 @@ async def get_status_missing_id():
 
 
 @router.get("/status/{task_id}", response_model=TaskStatus)
-async def get_status(task_id: str, db: AsyncDatabase = Depends(get_mongo_connection)):
+async def get_status(task_id: str, db: AsyncDatabase = Depends(get_mongo_connection("event"))):
     result = celery.AsyncResult(task_id)
 
     collection = db.get_collection("celery_event")

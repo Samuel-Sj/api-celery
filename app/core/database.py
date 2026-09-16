@@ -15,11 +15,16 @@ class Event(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime | None = Field(default_factory=datetime.now)
 
+class User(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    username: str
+    password: str
 
-async def get_mongo_connection():
+
+async def get_mongo_connection(db: str):
     async with AsyncMongoClient(settings.MONGO_URI) as client:
         try:
-            db = client.get_database("event")
+            db = client.get_database(db)
             yield db
         except ConnectionFailure as err:
             logger.error(f"Erro de timeout ao tentar conectar ao MongoDB: {err}")
